@@ -1,0 +1,12 @@
+{
+  "name"         : "node-web-scarpe",
+  "version"      : "0.0.1",
+  "description"  : "Scrape date and time for skating events.",
+  "main"         : "server.js",
+  "author"       : "Karol Świeca",
+  "dependencies" : {
+    "express"    : "latest",
+    "request"    : "latest",
+    "cheerio"    : "latest"
+  }
+}
