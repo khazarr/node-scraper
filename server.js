@@ -45,6 +45,9 @@ app.get('/scrape', function(req, res) {
 
       })
 
+      //TO DO
+      //extract specific info - date,time,hours
+      //store it in JSON Object 
 
       fs.writeFile('output.json', JSON.stringify(processedData, null, 4), function(err) {
         console.log('File successfully written! - Check your project directory for the output.json file');
