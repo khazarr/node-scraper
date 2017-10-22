@@ -6,6 +6,10 @@ var app = express();
 
 app.get('/scrape', function(req, res) {
 
+  function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+  }
+
   const url = 'https://cracovia.pl/hokej/slizgawki';
 
   request(url, function(err, response, html) {
@@ -47,14 +51,47 @@ app.get('/scrape', function(req, res) {
 
       //TO DO
       //extract specific info - date,time,hours
-      //store it in JSON Object 
+      //store it in JSON Object
+      const finalOutput = []
+      processedData.map(element => {
+        let obj = {
+          date: '',
+          day: '',
+          hours: []
+        };
+        //clean up string
+        let str = element;
+        str = str.replace(',', '');
+        str = str.replace(':', '');
+        str = str.replace(')', '');
+        str = str.replace('(', '');
 
-      fs.writeFile('output.json', JSON.stringify(processedData, null, 4), function(err) {
+        //there are two types of space in scraped website
+
+        str = encodeURIComponent(str)
+        str = replaceAll(str, '%C2%A0', 'X')
+        str = replaceAll(str, '%20', 'X')
+        str = decodeURIComponent(str)
+        let splited = str.split('X');
+
+        obj.date = splited[0]
+        obj.day = splited[1]
+
+        for (let i = 2; i < splited.length; i++) {
+          obj.hours.push(splited[i]);
+        }
+
+        finalOutput.push(obj);
+
+      })
+
+
+      fs.writeFile('output.json', JSON.stringify(finalOutput, null, 4), function(err) {
         console.log('File successfully written! - Check your project directory for the output.json file');
       });
 
       res.setHeader('Content-Type', 'application/json');
-      res.send(JSON.stringify(processedData));
+      res.send(JSON.stringify(finalOutput));
     }
   })
 
