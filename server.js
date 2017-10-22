@@ -61,7 +61,7 @@ app.get('/scrape', function(req, res) {
         };
         //clean up string
         let str = element;
-        str = str.replace(',', '');
+        str = replaceAll(str,',', '');
         str = str.replace(':', '');
         str = str.replace(')', '');
         str = str.replace('(', '');
@@ -98,8 +98,9 @@ app.get('/scrape', function(req, res) {
 })
 
 app.listen('8081')
-
-console.log('Magic happens on port 8081');
+console.log('*****************************');
+console.log('Up and running!')
+console.log('Magic happens on port http://localhost:8081/scrape');
 console.log('*****************************');
 
 exports = module.exports = app;
