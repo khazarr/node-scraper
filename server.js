@@ -13,6 +13,20 @@ app.get('/scrape', function(req, res) {
   const url = 'https://cracovia.pl/hokej/slizgawki';
 
   request(url, function(err, response, html) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
     if (!err) {
       const $ = cheerio.load(html);
       const dataFromPage = [];
@@ -61,7 +75,7 @@ app.get('/scrape', function(req, res) {
         };
         //clean up string
         let str = element;
-        str = replaceAll(str,',', '');
+        str = replaceAll(str, ',', '');
         str = str.replace(':', '');
         str = str.replace(')', '');
         str = str.replace('(', '');
