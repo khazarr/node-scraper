@@ -102,6 +102,7 @@ app.get('/scrape', function(req, res) {
 
       fs.writeFile('output.json', JSON.stringify(finalOutput, null, 4), function(err) {
         console.log('File successfully written! - Check your project directory for the output.json file');
+        console.log('Timestamp: ' + new Date())
       });
 
       res.setHeader('Content-Type', 'application/json');
